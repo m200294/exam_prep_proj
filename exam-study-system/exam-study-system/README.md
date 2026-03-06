@@ -67,8 +67,8 @@ No manual file management. No re-rendering artifacts. No data loss between chats
 
 ### 3. Get Your API Keys
 
-1. In Supabase → **Settings** (gear icon) → **API**
-2. Copy the **Project URL** (looks like `https://xyz.supabase.co`)
+1. In Supabase → **Settings** (gear icon) → **General** and **API**
+2. Copy the **Project URL** (looks like `https://Project ID.supabase.co`, you'll copy paste your actual project id in place of the Project ID name holder )
 3. Copy the **anon public** key (long string starting with `eyJ...`)
 
 ### 4. Deploy to Vercel
