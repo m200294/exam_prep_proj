@@ -46,7 +46,7 @@ No manual file management. No re-rendering artifacts. No data loss between chats
 - **Database**: Supabase (Postgres)
 - **Hosting**: Vercel (free tier)
 - **AI**: Claude with custom project skills
-- **Cost**: $0 (all free tiers)
+- **Cost**: $20 (just for the Claude subscription)
 
 ---
 
