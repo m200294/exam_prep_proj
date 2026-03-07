@@ -5,7 +5,7 @@ An AI-powered exam preparation system built with Claude, Next.js, Supabase, and 
 ---
 
 ## Origins
-Built for 3 university final exams ((Algorithms & Data Structures II, How Computers Work, Programming with Data)) over a 3-week sprint in March 2026. No tracking existed between sessions — progress was invisible. Each component was added to fix a specific gap: tracker first, then coach, then MCP automation. Grew from use, not planning.
+Built for 3 university final exams ((Algorithms & Data Structures II, How Computers Work, Programming with Data)) over a 3-week sprint in March 2026. No tracking existed between sessions — progress was invisible. Each component was added to fix a specific gap: tracker first, then coach, then MCP automation.
 
 ---
 
