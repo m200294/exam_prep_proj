@@ -1,6 +1,18 @@
 # Exam Study System
 
-An AI-powered exam preparation system built with Claude, Next.js, Supabase, and Vercel. Tracks study sessions, topic coverage, recurring weak areas, and cumulative accuracy — with Claude saving sessions automatically through an MCP server instead of manual JSON copy-paste.
+An AI-powered exam preparation system built with Claude, Next.js, Supabase, and Vercel. Tracks study sessions, topic coverage, recurring weak areas, and cumulative accuracy — with Claude saving sessions automatically.
+
+---
+
+## Origins
+
+This system wasn't planned upfront — it was built incrementally over a 3-week sprint in the lead-up to three university final exams.
+
+It started as a simple idea: use Claude to drill past paper questions. But after a few sessions it became clear there was no way to track what had been covered, how accuracy was trending, or which topics kept breaking down. Progress existed only inside individual chat windows — invisible and untrackable.
+
+So the tracker came first. Then the coach. Then the MCP automation to close the loop between studying and logging. Each piece was added to solve a real friction point that showed up during actual study sessions — not designed in advance, but grown from use.
+
+By the end of the sprint, what started as a handful of Claude prompts had become a full system: subject-specific exam skills, a deep encoding skill for concept learning, a live dashboard, a progress coach, and automated session saving. Built entirely on free tiers, in parallel with the studying it was designed to support.
 
 Preconfigured for three subjects:
 - `MATH` — Mathematics (`MATH101`)
@@ -18,6 +30,7 @@ The system has four parts: **skills**, **tracker**, **coach**, and **MCP automat
 One generalized instruction file that lives inside a Claude project. It tells Claude exactly how to run each type of study session — exam drills, concept encoding, and progress coaching — across any subject.
 
 - **General exam-practice skill** — Covers all subjects. Generates structured practice questions, allocates marks, diagnoses weak areas, and saves session results automatically.
+- **Deep encoding skill** — Guided concept learning sessions using the Layers of Learning framework (Justin Sung) and Bloom's Revised Taxonomy. Not a lecture — a structured dialogue where you build understanding layer by layer: Logic → Concepts → Important Details → Arbitrary Details. Claude prompts, you fill in the gaps. Sessions are tracked and saved like any other session type.
 
 ### 2. Tracker (This Web App)
 
