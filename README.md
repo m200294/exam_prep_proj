@@ -19,7 +19,7 @@ One generalized instruction file that lives inside a Claude project. It tells Cl
 
 - **General exam-practice skill** — Covers all subjects. Generates structured practice questions, allocates marks, diagnoses weak areas, and saves session results automatically.
 - **Deep encoding skill** — Guided concept learning sessions using the Layers of Learning framework (Justin Sung) and Bloom's Revised Taxonomy. Not a lecture — a structured dialogue where you build understanding layer by layer: Logic → Concepts → Important Details → Arbitrary Details. Claude prompts, you fill in the gaps. Sessions are tracked and saved like any other session type.
-- - **study-coach** — Fetches live session data from the database and generates a brutally honest progress report: pace, accuracy trends, topic coverage gaps, risk scores, trajectory predictions, and a specific 3-day action plan.
+- **study-coach** — Fetches live session data from the database and generates a brutally honest progress report: pace, accuracy trends, topic coverage gaps, risk scores, trajectory predictions, and a specific 3-day action plan.
 
 ### 2. Tracker (This Web App)
 
