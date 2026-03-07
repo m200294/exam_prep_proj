@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;
@@ -8,4 +12,12 @@ body {
   background: #0d0d0d;
   color: #e0e0e0;
   font-family: "JetBrains Mono", "Courier New", monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
 }
