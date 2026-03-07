@@ -5,19 +5,7 @@ An AI-powered exam preparation system built with Claude, Next.js, Supabase, and 
 ---
 
 ## Origins
-
-This system wasn't planned upfront — it was built incrementally over a 3-week sprint in the lead-up to three university final exams.
-
-It started as a simple idea: use Claude to drill past paper questions. But after a few sessions it became clear there was no way to track what had been covered, how accuracy was trending, or which topics kept breaking down. Progress existed only inside individual chat windows — invisible and untrackable.
-
-So the tracker came first. Then the coach. Then the MCP automation to close the loop between studying and logging. Each piece was added to solve a real friction point that showed up during actual study sessions — not designed in advance, but grown from use.
-
-By the end of the sprint, what started as a handful of Claude prompts had become a full system: subject-specific exam skills, a deep encoding skill for concept learning, a live dashboard, a progress coach, and automated session saving. Built entirely on free tiers, in parallel with the studying it was designed to support.
-
-Preconfigured for three subjects:
-- `MATH` — Mathematics (`MATH101`)
-- `PHYS` — Physics (`PHYS201`)
-- `CHEM` — Chemistry (`CHEM150`)
+Built for 3 university final exams ((Algorithms & Data Structures II, How Computers Work, Programming with Data)) over a 3-week sprint in March 2026. No tracking existed between sessions — progress was invisible. Each component was added to fix a specific gap: tracker first, then coach, then MCP automation. Grew from use, not planning.
 
 ---
 
