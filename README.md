@@ -1,32 +1,56 @@
 # Exam Study System
 
-An exam-prep dashboard built with Next.js, Supabase, Tailwind, Recharts, and an MCP server for Claude Desktop. It tracks study sessions, topic coverage, recurring weak areas, cumulative accuracy, and lets Claude save sessions directly through an API route instead of manual JSON copy-paste.
+An AI-powered exam preparation system built with Claude, Next.js, Supabase, and Vercel. Tracks study sessions, topic coverage, recurring weak areas, and cumulative accuracy — with Claude saving sessions automatically through an MCP server instead of manual JSON copy-paste.
 
-This project is currently configured for three subjects:
+Preconfigured for three subjects:
 - `MATH` — Mathematics (`MATH101`)
 - `PHYS` — Physics (`PHYS201`)
 - `CHEM` — Chemistry (`CHEM150`)
 
 ---
 
-## What It Includes
+## How It Works
 
-- Responsive study dashboard with overview cards, subject dashboards, topic heatmaps, session logs, and a progress-over-time chart
-- Add/edit/delete session flow with toast notifications
-- `/api/sessions` POST endpoint for automated inserts
-- Claude Desktop MCP server exposing `save_study_session`
-- One generalized exam-practice skill instead of separate subject-specific skill files
-- Supabase-backed persistence
+The system has four parts: **skills**, **tracker**, **coach**, and **MCP automation**. They form a closed loop.
+
+### 1. Skills (Claude Project Skills)
+
+One generalized instruction file that lives inside a Claude project. It tells Claude exactly how to run each type of study session — exam drills, concept encoding, and progress coaching — across any subject.
+
+- **General exam-practice skill** — Covers all subjects. Generates structured practice questions, allocates marks, diagnoses weak areas, and saves session results automatically.
+
+### 2. Tracker (This Web App)
+
+A live dashboard that visualises all study session data. Shows per-subject stats, topic coverage heatmaps, accuracy breakdowns, progress charts, recurring weak areas, and days until each exam.
+
+### 3. Coach
+
+When you say "coach check" in any chat, Claude fetches your live session data from Supabase, computes metrics across all subjects, and generates a report. It flags stalled subjects, identifies undertrained topics, predicts where you'll be on exam day at your current pace, and tells you exactly what to study next.
+
+### 4. MCP Automation
+
+An MCP server registered in Claude Desktop that exposes a `save_study_session` tool. At the end of every study session, Claude calls this tool to save results directly to the tracker — no manual JSON copying or pasting required.
+
+### The Loop
+
+```
+Study with Claude → Claude auto-saves session via MCP → tracker updates → coach reads tracker → tells you what to study next → repeat
+```
+
+No manual file management. No copy-pasting JSON. No data loss between chats.
 
 ---
 
 ## Stack
 
-- Frontend: Next.js 14, React 18, Tailwind CSS 3
-- Database: Supabase (Postgres)
-- Charts: Recharts
-- Notifications: react-hot-toast
-- Automation: MCP server via `@modelcontextprotocol/sdk`
+- **Frontend**: Next.js 14 (React 18)
+- **Styling**: Tailwind CSS v3
+- **Database**: Supabase (Postgres)
+- **Hosting**: Vercel (free tier)
+- **AI**: Claude Desktop with custom project skill + MCP
+- **Charts**: Recharts (progress over time)
+- **Notifications**: react-hot-toast
+- **Cost**: $0 (all free tiers)
 
 ---
 
@@ -47,68 +71,66 @@ This project is currently configured for three subjects:
 
 ### 3. Get Your API Keys
 
-1. In Supabase → **Settings** (gear icon) → **General** and **API**
-2. Copy the **Project URL** (looks like `https://Project ID.supabase.co`, you'll copy paste your actual project id in place of the Project ID name holder )
+1. In Supabase → **Settings** (gear icon) → **API**
+2. Copy the **Project URL** (looks like `https://xyz.supabase.co`)
 3. Copy the **anon public** key (long string starting with `eyJ...`)
 
-### 4. Configure Local Env
+### 4. Deploy to Vercel
+
+1. Push this folder to a GitHub repo
+2. Go to [vercel.com](https://vercel.com) → Sign up → **Import** your repo
+3. Add **Environment Variables**:
+   - `NEXT_PUBLIC_SUPABASE_URL` = your Project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = your anon key
+   - `SESSION_API_KEY` = a random secret (generate with `openssl rand -hex 32`)
+4. Set **Framework Preset** to Next.js
+5. Click **Deploy** — live URL in ~60 seconds
+
+### 5. Configure the Local Environment (optional)
 
 ```bash
 npm install
 cp .env.local.example .env.local
-```
-
-Then set:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SESSION_API_KEY` (optional, but recommended if you plan to expose `/api/sessions`)
-
-### 5. Run Locally
-
-```bash
+# Edit .env.local with your Supabase keys
 npm run dev
 ```
 
-### 6. Deploy to Vercel
+### 6. Set Up Claude Desktop MCP
 
-1. Push this folder to GitHub
-2. Import the repo into Vercel
-3. Set these env vars in Vercel:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SESSION_API_KEY` if you want API protection
-4. Deploy
+1. Install MCP server dependencies:
+   ```bash
+   cd mcp-server
+   npm install
+   ```
 
-### 7. Configure Claude Desktop MCP
+2. Open your Claude Desktop config file:
+   - **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+   - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-Install the MCP server dependencies:
+3. Add the MCP server entry:
+   ```json
+   {
+     "mcpServers": {
+       "exam-study-system": {
+         "command": "node",
+         "args": ["/absolute/path/to/exam-study-system/mcp-server/index.js"],
+         "env": {
+           "TRACKER_API_URL": "https://your-app.vercel.app/api/sessions",
+           "TRACKER_API_KEY": "your-SESSION_API_KEY-value"
+         }
+       }
+     }
+   }
+   ```
 
-```bash
-cd mcp-server
-npm install
-```
+4. Restart Claude Desktop — you should see "exam-study-system" in the MCP tools list.
 
-Then add a Claude Desktop config entry like this:
+### 7. Set Up Claude Project
 
-```json
-{
-  "mcpServers": {
-    "exam-study-system": {
-      "command": "node",
-      "args": ["/absolute/path/to/exam-study-system/mcp-server/index.js"],
-      "env": {
-        "TRACKER_API_URL": "https://your-app.vercel.app/api/sessions",
-        "TRACKER_API_KEY": "your-session-api-key"
-      }
-    }
-  }
-}
-```
-
-### 8. Use the Generalized Skill
-
-The repo now includes a single generalized skill source at `skills folder/general-exam-practice-SKILL.md`.
-Use it as the exam-practice instruction file instead of maintaining separate per-subject skills.
+1. Create a Claude project
+2. Add `skills folder/general-exam-practice-SKILL.md` to the project's custom skills
+3. Update the skill to say: "Use the `save_study_session` tool to save session results automatically"
+4. Start studying
 
 ---
 
@@ -116,10 +138,11 @@ Use it as the exam-practice instruction file instead of maintaining separate per
 
 ### Adding Sessions
 
-- Automated: use `save_study_session` through the MCP server
-- Manual JSON: `+ Add Session` → `Paste JSON`
-- Manual form: `+ Add Session` → `Use Form`
-- Editing: expand a session and click `Edit`
+Three ways to add sessions:
+
+- **Automatic (MCP)**: Claude calls `save_study_session` at the end of a study session. No action needed from you.
+- **Paste JSON**: Click `+ Add Session` → **Paste JSON** tab → paste Claude's output → Add.
+- **Manual form**: Click `+ Add Session` → **Use Form** tab → fill in fields.
 
 ### Session JSON Format
 
@@ -161,18 +184,20 @@ Deep encoding:
 
 ## File Structure
 
-```text
+```
 exam-study-system/
 ├── app/
-│   ├── api/sessions/route.js # Session POST endpoint
-│   ├── layout.js
-│   ├── page.js
-│   └── globals.css
-├── components/               # Refactored UI components
-├── lib/                      # Subjects config, Supabase, helpers
-├── mcp-server/               # Claude Desktop MCP server
-├── supabase-schema.sql
-├── .env.local.example
+│   ├── api/
+│   │   └── sessions/
+│   │       └── route.js          # POST endpoint for automated session saving
+│   ├── layout.js                 # Root layout with Toaster provider
+│   ├── page.js                   # Entry point
+│   └── globals.css               # Tailwind directives + base styles
+├── components/                   # Refactored UI components
+├── lib/                          # Subjects config, Supabase client, helpers
+├── mcp-server/                   # Claude Desktop MCP server
+├── supabase-schema.sql           # Run once in Supabase SQL Editor
+├── .env.local.example            # Template for env vars
 ├── tailwind.config.js
 ├── postcss.config.js
 └── package.json
@@ -180,11 +205,14 @@ exam-study-system/
 
 ---
 
-## Adapting It
+## Adapting This for Your Own Exams
 
-To reuse this for different subjects:
+This system isn't specific to these 3 subjects. To adapt it:
 
-1. Update [lib/subjects.js](/home/m200294/workspace/exam_prep_proj/exam-study-system/exam-study-system/lib/subjects.js)
-2. Update `supabase-schema.sql` seed data if needed
-3. Update your Claude skill/tooling prompts to emit the right subject/topic names
-4. Update the MCP config if the deployed URL or API key changes
+1. **Edit the `SUBJECTS` config** in `lib/subjects.js` — change names, topics, exam dates, colours
+2. **Update the skill file** — swap in your exam context, topic priorities, and question focus areas
+3. **Update the SQL schema** — change the `CHECK` constraint on the `subject` column to match your subjects
+4. **Update the API route** — update the valid subjects list in `app/api/sessions/route.js`
+5. **Update the MCP server** — update the subject enum in `mcp-server/index.js`
+
+The core loop (skill → session → tracker → coach → repeat) works for any exam-based studying.
