@@ -206,7 +206,7 @@ exam-study-system/
 
 ---
 
-## Adapting This for Your Own Exams
+## Adapting This for Your Own Exams (check out the my-study-tracker repo for my personal template)
 
 This system isn't specific to these 3 subjects. To adapt it:
 
