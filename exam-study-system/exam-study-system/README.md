@@ -15,6 +15,7 @@ This project is currently configured for three subjects:
 - Add/edit/delete session flow with toast notifications
 - `/api/sessions` POST endpoint for automated inserts
 - Claude Desktop MCP server exposing `save_study_session`
+- One generalized exam-practice skill instead of separate subject-specific skill files
 - Supabase-backed persistence
 
 ---
@@ -103,6 +104,11 @@ Then add a Claude Desktop config entry like this:
   }
 }
 ```
+
+### 8. Use the Generalized Skill
+
+The repo now includes a single generalized skill source at `skills folder/general-exam-practice-SKILL.md`.
+Use it as the exam-practice instruction file instead of maintaining separate per-subject skills.
 
 ---
 
